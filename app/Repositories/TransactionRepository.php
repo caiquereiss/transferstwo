@@ -6,7 +6,8 @@ use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Collection;
 
 class TransactionRepository
-{
+{    
+    
     public function all(): Collection
     {
         return Transaction::all();

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\UserRepository;
 
 
+/**
+ * Essa classe é responsavel pela regra de negócio do User.
+ */
 class UserService
 {
     private $repository;

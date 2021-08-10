@@ -40,6 +40,11 @@ return [
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
+        'notification' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/notification.log'),
+            'ignore_exceptions' => false,
+        ],
 
         'single' => [
             'driver' => 'single',

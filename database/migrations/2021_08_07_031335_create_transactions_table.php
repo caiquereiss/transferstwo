@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('payer');
             $table->unsignedBigInteger('payee');
             $table->decimal('value', 8,2);
+            $table->enum('status', ['0','1','2'])->default('0')->comment(('0: Pendente, 1: Pago, 2: Cancelado.'));
             $table->timestamps();
 
             $table->foreign('payer')->references('id')->on('users')->onDelete('cascade');
