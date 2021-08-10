@@ -1,14 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
-use App\Enumerators\UserPermission;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
-use LaravelLegends\PtBrValidator\Rules\FormatoCpf;
-
+/**
+ * Classe responsavel por direcionar as requisições do usuario
+ * 
+ */
 class UserController extends Controller
 {
     private $userService;
@@ -18,16 +20,14 @@ class UserController extends Controller
         $this-> userService = $service;
     }
 
+    /**
+     * Metodo para listar os usuarios
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $user = $this-> userService->getAll();
-        return $user;
-    }
-
-
-    public function create()
-    {
-        //
+        $user = $this->userService->getAll();
+        return response($user);
     }
 
     /**
@@ -62,14 +62,22 @@ class UserController extends Controller
         }
     }
 
-
-    public function show($id)
+    /**
+     * Método para exibir as informações de um usuario especifico.
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(int $id)
     {
         $user = $this->userService->findOrFail($id);
         return response($user);
     }
 
-
+    /**
+     * Método para atualizar as informações de um usuario especifico.
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
         $validate = $this->validate($request , [
@@ -85,8 +93,12 @@ class UserController extends Controller
         return response($user);
     }
 
-
-    public function destroy($id)
+    /**
+     * Método para deletar um usuario especifico.
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(int $id)
     {
         $this->userService->deleteById($id);
         return response([], Response::HTTP_NO_CONTENT);

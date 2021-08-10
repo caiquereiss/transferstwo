@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Exceptions\TransactionException;
 use App\Exceptions\UnauthorizedTransactionException;
 use App\Jobs\NotifyUser;
-use App\Repositories\UserRepository;
-// use App\Jobs\SendNotificationJob;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Repositories\TransactionRepository;
@@ -34,9 +32,10 @@ class TransactionService
         $this->userService = $userService;
     }
 
-        /**
-     * Método para obter todas as transactions .
+    /**
+     * Método para obter todas as transactions.
      * 
+     * @return \Illuminate\Database\Eloquent\Collection; 
      */
     public function getAll(): Collection
     {
@@ -45,11 +44,11 @@ class TransactionService
 
     /**
      * Método para encontrar o id da transaction.
-     *
-     * @param Transaction $id
-     * @return int
+     * 
+     * @param int $id
+     * @return \App\Models\Transaction
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-
     public function findOrFail(int $id): Transaction
     {
         return $this->repository->findOrFail($id);
@@ -57,9 +56,10 @@ class TransactionService
 
 
     /**
-     * Método para validar os processos da transaction.
+     * Método para processar a transaction.
      *
-     * @param Transaction $transaction
+     * @param array $transactionData
+     * @return \App\Models\Transaction
      * @throws TransactionException 
      */
     public function process(array $transactionData): Transaction
@@ -86,14 +86,14 @@ class TransactionService
     }
 
     /**
-     * Método para validar o pagamento.
+     * Método para validar a transação.
      *
      * @param Transaction $transaction
      * @param User $payerWallet
      * @return void
      * @throws TransactionException
      */
-    private function validatePayment($transaction, $payerWallet): void
+    private function validatePayment(Transaction $transaction, User $payerWallet): void
     {
         if ($payerWallet->is_store == 1) {
             throw new TransactionException('Lojistas não podem efetuar pagamentos, apenas recebem.');
@@ -114,11 +114,10 @@ class TransactionService
      * Método para realizar pagamento.
      *
      * @param Transaction $transaction
-     * @param User $payerWallet | $payeeWallet
+     * @param User $payerWallet
+     * @param User $payeeWallet
      * @return void
-     * 
      */
-
     private function makePayment(Transaction $transaction, User $payerWallet, User $payeeWallet): void
     {
         $this->authorizePayment();
@@ -136,7 +135,7 @@ class TransactionService
 
     /**
      * Método para autorizar o pagamento.
-     *@return void
+     * @return void
      * @throws UnauthorizedTransactionException
      */
 

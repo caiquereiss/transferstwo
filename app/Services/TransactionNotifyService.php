@@ -3,14 +3,12 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use App\Repositories\UserRepository;
-use Exception;
 use Illuminate\Support\Facades\Http;
 
 /**
  * Essa classe é responsável por notificar o sucesso da transação!
- *  */ 
+ *
+ * */ 
 class TransactionNotifyService
 {
     public  const MOCKY_URL = 'http://o4d9z.mocklab.io/notify';
@@ -19,10 +17,11 @@ class TransactionNotifyService
     /**
      * Método de envio de notificação.
      *
-     * @param User $payee
-     * 
+     * @param int $payee
+     * @return void
+     * @throws \Exception
      */
-    public function send(int $payee) 
+    public function send(int $payee): void
     {
         try {
 

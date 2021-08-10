@@ -11,13 +11,16 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Classe para adicionar um Job na fila.
+ */
 class NotifyUser implements ShouldQueue
 {   
     use Dispatchable, Queueable, InteractsWithQueue;
     private $payee;
 
     /**
-     * Crie uma nova instância de trabalho.
+     * Cria uma nova instância do Job.
      *@param User $payee
      * @return void
      */
@@ -27,7 +30,7 @@ class NotifyUser implements ShouldQueue
     }
 
     /**
-     * Executa o trabalho.
+     * Executa o Job.
      *
      * @return void
      * @throws Exception
